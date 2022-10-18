@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { Product } from "../../models/product.model";
 import { CartService } from "../../services/cart.service";
+import { Observable } from "rxjs";
+import { StoreService } from "../../services/store.service";
 
 const ROWS_HEIGHT: { [id: number]: number } = {
   1: 400,
@@ -16,10 +18,19 @@ export class HomeComponent implements OnInit {
   cols = 3;
   category: string | undefined;
   rowHeight = ROWS_HEIGHT[this.cols];
+  products$!: Observable<Product[]>;
+  products!: Product[];
+  sort = "desc";
+  limit = "12";
 
-  constructor(private cartService: CartService) {}
+  constructor(
+    private cartService: CartService,
+    private storeService: StoreService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.products$ = this.storeService.getAll(this.limit, this.sort);
+  }
 
   onColumnsCountChange(colsNumber: number): void {
     this.cols = colsNumber;

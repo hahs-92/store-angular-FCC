@@ -12,11 +12,12 @@
     ></app-products-header>
 
     <mat-grid-list gutterSize="16" [cols]="cols" [rowHeight]="rowHeight">
-      <mat-grid-tile>
+      <mat-grid-tile *ngFor="let product of products$ | async">
         <app-product-box
           class="w-full"
           [fullWidthMode]="cols === 1"
           (addToCart)="onAddToCart($event)"
+          [product]="product"
         ></app-product-box>
       </mat-grid-tile>
     </mat-grid-list>
