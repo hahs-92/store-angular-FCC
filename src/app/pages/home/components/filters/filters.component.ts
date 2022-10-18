@@ -1,4 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from "@angular/core";
+import { StoreService } from "../../../../services/store.service";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-filters",
@@ -6,11 +8,13 @@ import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 })
 export class FiltersComponent implements OnInit {
   @Output() showCategory = new EventEmitter<string>();
-  categories = ["shoes", "sports"];
+  categories$!: Observable<Array<string>>;
 
-  constructor() {}
+  constructor(private storeService: StoreService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.categories$ = this.storeService.getAllCategories();
+  }
 
   onShowCategory(category: string): void {
     this.showCategory.emit(category);

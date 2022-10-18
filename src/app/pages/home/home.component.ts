@@ -33,7 +33,11 @@ export class HomeComponent implements OnInit {
   }
 
   getProducts(): void {
-    this.products$ = this.storeService.getAll(this.limit, this.sort);
+    this.products$ = this.storeService.getAll(
+      this.limit,
+      this.sort,
+      this.category
+    );
   }
 
   onColumnsCountChange(colsNumber: number): void {
@@ -43,6 +47,7 @@ export class HomeComponent implements OnInit {
 
   onShowCategory(newCategory: string): void {
     this.category = newCategory;
+    this.getProducts();
   }
 
   onAddToCart(product: Product): void {
