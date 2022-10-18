@@ -9,27 +9,27 @@ import { CartService } from "../../services/cart.service";
 export class CartComponent implements OnInit {
   cart: Cart = {
     items: [
-      {
-        id: 1,
-        name: "snickers",
-        product: "https://via.placeholder.com/150",
-        price: 150,
-        quantity: 1,
-      },
-      {
-        id: 2,
-        name: "snickers",
-        product: "https://via.placeholder.com/150",
-        price: 100,
-        quantity: 3,
-      },
-      {
-        id: 3,
-        name: "snickers",
-        product: "https://via.placeholder.com/150",
-        price: 120,
-        quantity: 5,
-      },
+      // {
+      //   id: 1,
+      //   name: "snickers",
+      //   product: "https://via.placeholder.com/150",
+      //   price: 150,
+      //   quantity: 1,
+      // },
+      // {
+      //   id: 2,
+      //   name: "snickers",
+      //   product: "https://via.placeholder.com/150",
+      //   price: 100,
+      //   quantity: 3,
+      // },
+      // {
+      //   id: 3,
+      //   name: "snickers",
+      //   product: "https://via.placeholder.com/150",
+      //   price: 120,
+      //   quantity: 5,
+      // },
     ],
   };
 
@@ -46,10 +46,29 @@ export class CartComponent implements OnInit {
   constructor(private cartService: CartService) {}
 
   ngOnInit(): void {
-    this.dataSource = this.cart.items;
+    this.cartService.$cart.subscribe((_cart) => {
+      this.cart = _cart;
+      this.dataSource = this.cart.items;
+    });
   }
 
   getTotal(items: Array<CartItem>): number {
     return this.cartService.getTotal(items);
+  }
+
+  onClearCart(): void {
+    this.cartService.clearCart();
+  }
+
+  onRemoveCartItem(item: CartItem) {
+    this.cartService.removeFormCart(item);
+  }
+
+  onAddQuantity(item: CartItem): void {
+    this.cartService.addToCart(item);
+  }
+
+  onRemoveQuantity(item: CartItem): void {
+    this.cartService.removeQuantity(item);
   }
 }
