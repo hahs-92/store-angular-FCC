@@ -29,6 +29,10 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.getProducts();
+  }
+
+  getProducts(): void {
     this.products$ = this.storeService.getAll(this.limit, this.sort);
   }
 
@@ -49,5 +53,15 @@ export class HomeComponent implements OnInit {
       quantity: 1,
       id: product.id,
     });
+  }
+
+  onItemsCountChange(newCount: number): void {
+    this.limit = newCount.toString();
+    this.getProducts();
+  }
+
+  onSortChange(newSort: string): void {
+    this.sort = newSort;
+    this.getProducts();
   }
 }
